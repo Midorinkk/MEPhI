@@ -8,21 +8,19 @@ TFile* f2 = new TFile("/home/midorinkk/Downloads/user.dponomar.19428278._000009.
 TTree* ee = (TTree*)f1->Get("NOMINAL");
 TTree* mumu = (TTree*)f2->Get("NOMINAL");
 
-TH1F *ee11 = new TH1F("Pt", "e; P_{T} [GeV]; Entries", 150, 0, 400);
-TH1F *ee12 = new TH1F("Eta", "e; Eta; Entries", 150, -3, 3);
-TH1F *ee13 = new TH1F("Phi", "e; Phi; Entries", 150, -4, 4);
-TH1F *ee14 = new TH1F("E", "e; E; Entries", 150, 0, 1000);
-TH1F *ee21 = new TH1F("Pt", "e; P_{T} [GeV]; Entries", 150, 0, 200);
-TH1F *ee23 = new TH1F("Phi", "e; Phi; Entries", 150, -4, 4);
-TH1F *ee24 = new TH1F("E", "e; E; Entries", 150, 0, 200);
+TH1F *ee11 = new TH1F("Pt", "ee; P_{T} [GeV]; Entries", 150, -50, 400);
+TH1F *ee12 = new TH1F("Eta", "ee; #eta; Entries", 150, -3, 3);
+TH1F *ee13 = new TH1F("Phi", "ee; #phi; Entries", 150, -4, 4);
+TH1F *ee14 = new TH1F("E", "ee; E [GeV]; Entries", 150, 0, 1000);
+TH1F *ee21 = new TH1F("Pt", "met_{e}; P_{T} [GeV]; Entries", 150, -50, 200);
+TH1F *ee23 = new TH1F("Phi", "met_{e}; Phi; Entries", 150, -4, 4);
 
-TH1F *mumu11 = new TH1F("Pt", "mu; P_{T} [GeV]; Entries", 150, 0, 400);
-TH1F *mumu12 = new TH1F("Pt", "mu; P_{T} [GeV]; Entries", 150, -3, 3);
-TH1F *mumu13 = new TH1F("Phi", "mu; Phi; Entries", 150, -4, 4);
-TH1F *mumu14 = new TH1F("E", "mu; E; Entries", 150, 0, 600);
-TH1F *mumu21 = new TH1F("Pt", "mu; P_{T} [GeV]; Entries", 150, 0, 150);
-TH1F *mumu23 = new TH1F("Phi", "mu; Phi; Entries", 150, -4, 4);
-TH1F *mumu24 = new TH1F("E", "mu; E; Entries", 150, 0, 150);
+TH1F *mumu11 = new TH1F("Pt", "#mu#mu; P_{T} [GeV]; Entries", 150, -50, 400);
+TH1F *mumu12 = new TH1F("Eta", "#mu#mu; #eta; Entries", 150, -3, 3);
+TH1F *mumu13 = new TH1F("Phi", "#mu#mu; #phi; Entries", 150, -4, 4);
+TH1F *mumu14 = new TH1F("E", "#mu#mu; E; Entries", 150, 0, 600);
+TH1F *mumu21 = new TH1F("Pt", "met_{#mu}; P_{T} [GeV]; Entries", 150, -50, 150);
+TH1F *mumu23 = new TH1F("Phi", "met_{#mu}; #phi; Entries", 150, -4, 4);
 
 TCanvas* c = new TCanvas("c", "", 2000, 2000);
 c->Divide(3,2);
@@ -33,7 +31,6 @@ ee13->SetDirectory(gROOT);
 ee14->SetDirectory(gROOT);
 ee21->SetDirectory(gROOT);
 ee23->SetDirectory(gROOT);
-ee24->SetDirectory(gROOT);
 
 mumu11->SetDirectory(gROOT);
 mumu12->SetDirectory(gROOT);
@@ -41,7 +38,6 @@ mumu13->SetDirectory(gROOT);
 mumu14->SetDirectory(gROOT);
 mumu21->SetDirectory(gROOT);
 mumu23->SetDirectory(gROOT);
-mumu24->SetDirectory(gROOT);
 
 TLorentzVector* lep_e = 0;
 TLorentzVector* met_e = 0;
@@ -65,7 +61,6 @@ ee13->Fill(lep_e->Phi());
 ee14->Fill(lep_e->E());
 ee21->Fill(met_e->Pt());
 ee23->Fill(met_e->Phi());
-ee24->Fill(met_e->E());
 }
 
 Long64_t M=mumu->GetEntries();
@@ -80,7 +75,6 @@ mumu13->Fill(lep_mu->Phi());
 mumu14->Fill(lep_mu->E());
 mumu21->Fill(met_mu->Pt());
 mumu23->Fill(met_mu->Phi());
-mumu24->Fill(met_mu->E());
 }
 
 f1->Close();
@@ -91,8 +85,8 @@ Double_t norm=1;
 ee11->Scale(norm/ee11->Integral(), "width");
 mumu11->Scale(norm/mumu11->Integral(), "width");
 ee11->SetLineColor(kGreen);
-ee11->Draw("hist");
-mumu11->Draw("hist same");
+mumu11->Draw("hist");
+ee11->Draw("hist same");
 gPad->BuildLegend(0.9,0.1,0.8,0.3);
 
 c->cd(2);
@@ -127,12 +121,5 @@ ee23->SetLineColor(kGreen);
 ee23->Draw("hist same");
 gPad->BuildLegend(0.9,0.1,0.8,0.3);
 
-c->cd(6);
-ee24->Scale(norm/ee24->Integral(), "width");
-mumu24->Scale(norm/mumu24->Integral(), "width");
-mumu24->Draw("hist");
-ee24->SetLineColor(kGreen);
-ee24->Draw("hist same");
-gPad->BuildLegend(0.9,0.1,0.8,0.3);
 
 }
